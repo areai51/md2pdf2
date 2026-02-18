@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.pdf
+*.html
+.DS_Store
+.vscode/
+.idea/
+*.log
+.env
+.pnpm-store/

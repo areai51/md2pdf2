@@ -1,0 +1,52 @@
+{
+  "name": "md2pdf",
+  "version": "0.1.0",
+  "description": "Convert Markdown to PDF using customizable templates",
+  "type": "module",
+  "main": "dist/cli.js",
+  "bin": {
+    "md2pdf": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/cli.js",
+    "test": "node dist/cli.js convert examples/demo.md -o demo.pdf",
+    "lint": "eslint src --ext .ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "markdown",
+    "pdf",
+    "converter",
+    "cli",
+    "templates"
+  ],
+  "author": "Vinci Rufus",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/areai51/md2pdf.git"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "front-matter": "^4.0.2",
+    "handlebars": "^4.7.8",
+    "marked": "^11.1.1",
+    "puppeteer": "^23.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist",
+    "templates"
+  ]
+}
