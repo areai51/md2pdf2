@@ -29,6 +29,16 @@ md2pdf2 convert input.md --template my-template.hbs -o output.pdf
 md2pdf2 dev input.md
 ```
 
+## Agent Skill
+
+Install the md2pdf2 skill for Claude Code, Amp, OpenCode etc:
+
+```bash
+npx skills add areai51/md2pdf2
+```
+
+This adds the skill to your Claude Code environment, enabling intelligent PDF generation with automatic template selection and markdown formatting.
+
 ## Dev Mode
 
 Start a live preview server to see your markdown rendered in different templates:
