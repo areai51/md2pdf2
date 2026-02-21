@@ -1,6 +1,6 @@
 # MD2PDF Demo
 
-This is a **demo** of the `md2pdf` CLI tool.
+This is a **demo** of the `md2pdf2` CLI tool.
 
 ## Features
 
@@ -36,3 +36,4 @@ console.log('Hello, world!');
 ---
 
 *End of demo*
+

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{#if frontMatter.name}}{{frontMatter.name}} - Resume{{else}}Resume{{/if}}</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      color: #2c3e50;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0;
+      font-size: 11pt;
+    }
+    .header {
+      text-align: center;
+      padding: 30px 0;
+      border-bottom: 2px solid #3498db;
+    }
+    .header h1 {
+      font-size: 28pt;
+      font-weight: 300;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      color: #2c3e50;
+    }
+    .header .contact {
+      font-size: 10pt;
+      color: #7f8c8d;
+    }
+    .header .contact a {
+      color: #3498db;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    .section {
+      padding: 20px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .section:last-child { border-bottom: none; }
+    .section-title {
+      font-size: 12pt;
+      font-weight: 600;
+      color: #3498db;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+    }
+    .section h2 {
+      font-size: 11pt;
+      margin-bottom: 4px;
+      color: #2c3e50;
+    }
+    .section h3 {
+      font-size: 10pt;
+      font-weight: normal;
+      color: #7f8c8d;
+      margin-bottom: 8px;
+    }
+    .section p {
+      margin-bottom: 8px;
+      font-size: 10pt;
+    }
+    .section ul {
+      padding-left: 20px;
+      margin-bottom: 15px;
+    }
+    .section li {
+      font-size: 10pt;
+      margin-bottom: 4px;
+    }
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .skill-tag {
+      background: #ecf0f1;
+      padding: 4px 12px;
+      border-radius: 3px;
+      font-size: 9pt;
+      color: #2c3e50;
+    }
+    .entry {
+      margin-bottom: 20px;
+    }
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 5px;
+    }
+    .entry-title {
+      font-size: 11pt;
+      font-weight: 600;
+    }
+    .entry-date {
+      font-size: 9pt;
+      color: #7f8c8d;
+    }
+    .entry-company {
+      font-size: 10pt;
+      color: #7f8c8d;
+      margin-bottom: 8px;
+    }
+    a { color: #3498db; text-decoration: none; }
+    code {
+      background: #f8f9fa;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+    @media print {
+      body { padding: 0.5in; }
+      .section { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>{{#if frontMatter.name}}{{frontMatter.name}}{{else}}Your Name{{/if}}</h1>
+    <div class="contact">
+      {{#if frontMatter.email}}<a href="mailto:{{frontMatter.email}}">{{frontMatter.email}}</a>{{/if}}
+      {{#if frontMatter.phone}}<a href="tel:{{frontMatter.phone}}">{{frontMatter.phone}}</a>{{/if}}
+      {{#if frontMatter.linkedin}}<a href="{{frontMatter.linkedin}}">LinkedIn</a>{{/if}}
+      {{#if frontMatter.github}}<a href="{{frontMatter.github}}">GitHub</a>{{/if}}
+    </div>
+  </div>
+  <main>{{{content}}}</main>
+</body>
+</html>

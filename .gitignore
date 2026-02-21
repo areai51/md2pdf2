@@ -8,3 +8,4 @@ dist/
 *.log
 .env
 .pnpm-store/
+.npmrc

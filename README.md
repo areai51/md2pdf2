@@ -17,14 +17,39 @@ A CLI tool that converts Markdown to PDF using customizable templates — think 
 
 ```bash
 # Install globally (once published)
-npm install -g md2pdf
+npm install -g md2pdf2
 
 # Or use npx
-npx md2pdf convert input.md -o output.pdf
+npx md2pdf2 convert input.md -o output.pdf
 
 # With a custom template
-md2pdf convert input.md --template my-template.hbs -o output.pdf
+md2pdf2 convert input.md --template my-template.hbs -o output.pdf
+
+# Dev mode with live preview
+md2pdf2 dev input.md
 ```
+
+## Dev Mode
+
+Start a live preview server to see your markdown rendered in different templates:
+
+```bash
+md2pdf2 dev input.md --port 3456
+```
+
+Opens a browser with:
+- **Left pane**: Template selector (switch between templates)
+- **Right pane**: Live preview of your markdown
+
+Changes to your `.md` file or templates auto-reload the preview.
+
+### Built-in Templates
+
+- `default` - Clean, professional look
+- `modern` - Bold colors, Inter-style typography
+- `minimal` - Simple, classic serif
+- `newsletter` - Email newsletter style
+- `resume` - CV/resume formatting
 
 ## Project Structure
 
@@ -37,7 +62,7 @@ my-doc/
 │   ├── parts/
 │   │   └── header.hbs
 │   └── styles.css
-├── md2pdf.config.js
+├── md2pdf2.config.js
 └── package.json
 ```
 
@@ -63,7 +88,7 @@ Templates use handlebars-like syntax for placeholders and partials:
 
 ## Configuration
 
-`md2pdf.config.js`:
+`md2pdf2.config.js`:
 
 ```js
 export default {

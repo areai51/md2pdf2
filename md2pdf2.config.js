@@ -1,4 +1,4 @@
-// md2pdf configuration file
+// md2pdf2 configuration file
 // Copy this to your project root and customize
 
 export default {

@@ -1,16 +1,17 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { readFileAsync, writeFileAsync, fileExists, resolvePath } from './utils.js';
+import { readFileAsync, writeFileAsync, fileExists, resolvePath, getFileName } from './utils.js';
 import { Converter } from './converter.js';
 import { TemplateEngine } from './template-engine.js';
 import { PDFGenerator } from './pdf-generator.js';
 import { MD2PDFConfig, DEFAULT_CONFIG } from './types.js';
+import { startDevServer } from './dev-server.js';
 
 const program = new Command();
 
 program
-  .name('md2pdf')
+  .name('md2pdf2')
   .description('Convert Markdown to PDF using customizable templates')
   .version('0.1.0');
 
@@ -21,8 +22,7 @@ program
   .option('-o, --output <file>', 'Output PDF file')
   .option('-t, --template <file>', 'Custom template file (Handlebars)')
   .option('-s, --style <file>', 'Custom CSS file')
-  .option('-c, --config <file>', 'Configuration file (md2pdf.config.js)')
-  .option('--no-pdf', 'Only generate HTML, do not create PDF')
+  .option('-c, --config <file>', 'Configuration file (md2pdf2.config.js)')
   .action(async (input, options) => {
     try {
       // Load configuration
@@ -70,12 +70,10 @@ program
       await writeFileAsync(htmlPath, renderedHtml);
       console.log(`✓ HTML generated: ${htmlPath}`);
 
-      // Generate PDF unless disabled
-      if (!options.pdf) {
-        const generator = new PDFGenerator();
-        await generator.generate(renderedHtml, outputPath, config.pdfOptions);
-        console.log(`✓ PDF generated: ${outputPath}`);
-      }
+      // Generate PDF
+      const generator = new PDFGenerator();
+      await generator.generate(renderedHtml, outputPath, config.pdfOptions);
+      console.log(`✓ PDF generated: ${outputPath}`);
 
     } catch (error) {
       console.error('Error:', error instanceof Error ? error.message : error);
@@ -96,9 +94,31 @@ async function loadConfig(options: any): Promise<MD2PDFConfig> {
 }
 
 function getOutputPath(inputPath: string): string {
-  const name = resolvePath(inputPath).split('/').pop() || 'output';
-  const baseName = name.replace(/\.(md|markdown)$/i, '');
+  const baseName = getFileName(inputPath);
   return `${baseName}.pdf`;
 }
+
+program
+  .command('dev')
+  .description('Start dev server with live preview')
+  .argument('<input>', 'Input Markdown file')
+  .option('-p, --port <port>', 'Dev server port', '3456')
+  .option('-c, --config <file>', 'Configuration file')
+  .action(async (input, options) => {
+    try {
+      if (!(await fileExists(input))) {
+        console.error(`Error: Input file not found: ${input}`);
+        process.exit(1);
+      }
+      await startDevServer({
+        input,
+        port: parseInt(options.port, 10),
+        config: options.config
+      });
+    } catch (error) {
+      console.error('Error:', error instanceof Error ? error.message : error);
+      process.exit(1);
+    }
+  });
 
 program.parse();

@@ -3,7 +3,7 @@ import { readFileAsync } from './utils.js';
 import { MD2PDFConfig } from './types.js';
 
 export class TemplateEngine {
-  private template: HandlebarsTemplateDelegate;
+  private template!: HandlebarsTemplateDelegate;
   private partials: Record<string, HandlebarsTemplateDelegate> = {};
 
   constructor(config: MD2PDFConfig) {
@@ -17,9 +17,11 @@ export class TemplateEngine {
   }
 
   private registerHelpers(): void {
-    // Helper to check if a partial exists
-    Handlebars.registerHelper('hasPartial', (name: string, options: any) => {
-      return this.partials[name] ? options.fn(this) : options.inverse(this);
+    Handlebars.registerHelper('hasPartial', (name: string) => {
+      return !!this.partials[name];
+    });
+    Handlebars.registerHelper('currentDate', () => {
+      return new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     });
   }
 

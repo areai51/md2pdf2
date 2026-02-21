@@ -1,10 +1,10 @@
-import puppeteer from 'puppeteer';
+import puppeteer, { PDFOptions as PuppeteerPDFOptions } from 'puppeteer';
 import { PDFOptions } from './types.js';
 
 export class PDFGenerator {
   async generate(html: string, outputPath: string, pdfOptions?: PDFOptions): Promise<void> {
     const browser = await puppeteer.launch({
-      headless: 'new',
+      headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
@@ -15,7 +15,7 @@ export class PDFGenerator {
       await page.setContent(html, { waitUntil: ['networkidle0', 'domcontentloaded'] });
 
       // Set PDF options
-      const options: puppeteer.PDFOptions = {
+      const options: PDFOptions = {
         format: pdfOptions?.format || 'A4',
         printBackground: pdfOptions?.printBackground ?? true,
         margin: {
@@ -32,7 +32,7 @@ export class PDFGenerator {
       await page.pdf({
         path: outputPath,
         ...options
-      });
+      } as PuppeteerPDFOptions);
     } finally {
       await browser.close();
     }
