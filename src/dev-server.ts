@@ -317,7 +317,7 @@ function getDevHTML(port: number): string {
   <div class="toast" id="toast"><span class="toast-dot"></span><span id="toastMsg">Reloading...</span></div>
   <div class="sidebar">
     <div class="sidebar-header">
-      <h1>Templates</h1>
+      <h1>md2pdf2</h1>
       <p id="currentTemplate"><span style="color: #22c55e;">●</span> Watching for changes</p>
     </div>
     <div class="template-list" id="templateList"></div>

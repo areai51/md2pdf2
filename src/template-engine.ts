@@ -23,6 +23,10 @@ export class TemplateEngine {
     Handlebars.registerHelper('currentDate', () => {
       return new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     });
+    Handlebars.registerHelper('slice', (str: string, start: number, end?: number) => {
+      if (typeof str !== 'string') return '';
+      return str.slice(start, end);
+    });
   }
 
   private async loadPartialsFromConfig(partialsConfig: Record<string, string>): Promise<void> {
@@ -103,7 +107,8 @@ export class TemplateEngine {
       content,
       frontMatter,
       styles,
-      partials: this.partials
+      partials: this.partials,
+      ...frontMatter
     });
   }
 }

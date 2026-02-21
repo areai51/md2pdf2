@@ -1,3 +1,8 @@
+---
+title: MD2PDF Demo
+author: Author Name
+date: 2024-01-01
+---
 # MD2PDF Demo
 
 This is a **demo** of the `md2pdf2` CLI tool.
@@ -36,4 +41,3 @@ console.log('Hello, world!');
 ---
 
 *End of demo*
-
