@@ -36,7 +36,10 @@ export async function startDevServer(options: DevServerOptions) {
     Object.assign(config, userConfig);
   }
 
-  const templatesDir = config.template ? path.dirname(config.template) : './templates';
+  // Resolve templates directory relative to current working directory (where command is run)
+  const templatesDir = config.template 
+    ? path.resolve(process.cwd(), path.dirname(config.template)) 
+    : path.join(process.cwd(), 'templates');
   templates = await discoverTemplates(templatesDir);
 
   async function discoverTemplates(dir: string): Promise<string[]> {
@@ -138,18 +141,41 @@ export async function startDevServer(options: DevServerOptions) {
     });
   }
 
-  const watcher = watch([options.input, templatesDir], {
-    ignoreInitial: true,
-    awaitWriteFinish: { stabilityThreshold: 100 }
+  const pathsToWatch = [options.input];
+  if (templatesDir) {
+    pathsToWatch.push(templatesDir);
+  }
+
+  const watcher = watch(pathsToWatch, {
+    ignoreInitial: false,
+    awaitWriteFinish: { stabilityThreshold: 200, pollInterval: 100 }
   });
 
-  watcher.on('change', async (filepath) => {
-    if (filepath.endsWith('.hbs')) {
-      templates = await discoverTemplates(templatesDir);
-      broadcast('templates-updated', getTemplateList());
-    }
-    broadcast('reload');
-  });
+  watcher
+    .on('change', async (filepath) => {
+      console.log(`File changed: ${filepath}`);
+      if (filepath.endsWith('.hbs')) {
+        templates = await discoverTemplates(templatesDir);
+        broadcast('templates-updated', getTemplateList());
+      }
+      broadcast('reload');
+    })
+    .on('add', async (filepath) => {
+      console.log(`File added: ${filepath}`);
+      if (filepath.endsWith('.hbs')) {
+        templates = await discoverTemplates(templatesDir);
+        broadcast('templates-updated', getTemplateList());
+      }
+      broadcast('reload');
+    })
+    .on('unlink', async (filepath) => {
+      console.log(`File removed: ${filepath}`);
+      if (filepath.endsWith('.hbs')) {
+        templates = await discoverTemplates(templatesDir);
+        broadcast('templates-updated', getTemplateList());
+      }
+      broadcast('reload');
+    });
 
   server.listen(port, () => {
     console.log(`\n  Dev server running at http://localhost:${port}`);
