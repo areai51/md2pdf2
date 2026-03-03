@@ -22,6 +22,9 @@ npm install -g md2pdf2
 # Or use npx
 npx md2pdf2 convert input.md -o output.pdf
 
+# Initialize a new project with sample files
+md2pdf2 init
+
 # With a custom template
 md2pdf2 convert input.md --template my-template.hbs -o output.pdf
 
@@ -38,6 +41,56 @@ npx skills add areai51/md2pdf2
 ```
 
 This adds the skill to your Claude Code environment, enabling intelligent PDF generation with automatic template selection and markdown formatting.
+
+## MCP Server
+
+Use md2pdf2 as an MCP server with AI agents:
+
+```bash
+# Using npx (no installation required)
+npx md2pdf2-mcp
+
+# Or install globally
+npm install -g md2pdf2
+md2pdf2-mcp
+```
+
+### Configure in Claude Desktop
+
+Add to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "md2pdf2": {
+      "command": "npx",
+      "args": ["md2pdf2-mcp"]
+    }
+  }
+}
+```
+
+### Available Tools
+
+- **convert**: Convert a Markdown file to PDF
+- **convertMarkdown**: Convert a Markdown string to PDF
+- **listTemplates**: List available built-in templates
+
+### Example Usage
+
+Agents can now use the MCP tools to convert markdown:
+
+```json
+{
+  "tool": "convert",
+  "arguments": {
+    "input": "./document.md",
+    "output": "./document.pdf",
+    "template": "./templates/modern.hbs",
+    "format": "A4"
+  }
+}
+```
 
 ## Dev Mode
 

@@ -7,6 +7,7 @@ import { TemplateEngine } from './template-engine.js';
 import { PDFGenerator } from './pdf-generator.js';
 import { MD2PDFConfig, DEFAULT_CONFIG } from './types.js';
 import { startDevServer } from './dev-server.js';
+import { initProject } from './init.js';
 
 const program = new Command();
 
@@ -14,6 +15,19 @@ program
   .name('md2pdf2')
   .description('Convert Markdown to PDF using customizable templates')
   .version('0.1.0');
+
+program
+  .command('init')
+  .description('Initialize a new md2pdf2 project with sample files')
+  .argument('[directory]', 'Target directory (default: current directory)')
+  .action(async (directory) => {
+    try {
+      await initProject(directory || process.cwd());
+    } catch (error) {
+      console.error('Error:', error instanceof Error ? error.message : error);
+      process.exit(1);
+    }
+  });
 
 program
   .command('convert')
